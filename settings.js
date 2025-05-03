@@ -1,7 +1,7 @@
 const settings = {
-    "minecraft_version": "1.21.1", // supports up to 1.21.1
+    "minecraft_version": "1.20.4", // supports up to 1.21.1
     "host": "127.0.0.1", // or "localhost", "your.ip.address.here"
-    "port": 55916,
+    "port": 25565,
     "auth": "offline", // or "microsoft"
 
     // the mindserver manages all agents and hosts the UI
@@ -30,7 +30,7 @@ const settings = {
     "only_chat_with": [], // users that the bots listen to and send general messages to. if empty it will chat publicly
     "speak": false, // allows all bots to speak through system text-to-speech. works on windows, mac, on linux you need to `apt install espeak`
     "language": "en", // translate to/from this language. Supports these language names: https://cloud.google.com/translate/docs/languages
-    "show_bot_views": false, // show bot's view in browser at localhost:3000, 3001...
+    "show_bot_views": true, // show bot's view in browser at localhost:3000, 3001...
 
     "allow_insecure_coding": false, // allows newAction command and model can write/run code on your computer. enable at own risk
     "allow_vision": false, // allows vision model to interpret screenshots as inputs
@@ -44,7 +44,7 @@ const settings = {
     "verbose_commands": true, // show full command syntax
     "narrate_behavior": true, // chat simple automatic actions ('Picking up item!')
     "chat_bot_messages": true, // publicly chat messages to other bots
-    "log_all_prompts": false, // log ALL prompts to file
+    "log_all_prompts": true, // log ALL prompts to file
 }
 
 // these environment variables override certain settings

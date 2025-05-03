@@ -15,6 +15,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
         h1 {
             color: #ffffff;
@@ -58,15 +59,40 @@
         .status-icon.offline {
             color: #f44336;
         }
+        #viewer-container {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: none;
+        }
+        #viewer {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 80vh;
+        }
+        .iframe-wrapper {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <h1>Mindcraft</h1>
     <div id="agents"></div>
+    <div id="viewer-container">
+        <h2>Viewer</h2>
+        <div id="viewer">
+            <iframe data-port="3000" src="http://localhost:3000" class="iframe-wrapper"></iframe>
+        </div>
+    </div>
 
     <script>
         const socket = io();
         const agentsDiv = document.getElementById('agents');
+        const viewerContainer = document.getElementById('viewer-container');
 
         socket.on('agents-update', (agents) => {
             agentsDiv.innerHTML = agents.length ? 
@@ -80,13 +106,14 @@
                             ${agent.in_game ? `
                                 <button class="stop-btn" onclick="stopAgent('${agent.name}')">Stop</button>
                                 <button class="restart-btn" onclick="restartAgent('${agent.name}')">Restart</button>
-								<input type="text" id="messageInput" placeholder="Enter a message or command..."></input><button class="start-btn" onclick="sendMessage('${agent.name}', document.getElementById('messageInput').value)">Send</button>
+                                <input type="text" id="messageInput" placeholder="Enter a message or command..."></input><button class="start-btn" onclick="sendMessage('${agent.name}', document.getElementById('messageInput').value)">Send</button>
                             ` : `
                                 <button class="start-btn" onclick="startAgent('${agent.name}')">Start</button>
                             `}
                         </div>
                     </div>
-                `).join('') + 
+                `
+            ).join('') + 
                 `<button class="stop-btn" onclick="killAllAgents()">Stop All</button>
                 <button class="stop-btn" onclick="shutdown()">Shutdown</button>` :
                 '<div class="agent">No agents connected</div>';
@@ -98,23 +125,66 @@
 
         function startAgent(agentName) {
             socket.emit('start-agent', agentName);
+            viewerContainer.style.display = 'block';
         }
 
         function stopAgent(agentName) {
             socket.emit('stop-agent', agentName);
+            viewerContainer.style.display = 'none';
         }
 
         function killAllAgents() {
             socket.emit('stop-all-agents');
+            viewerContainer.style.display = 'none';
         }
 
         function shutdown() {
             socket.emit('shutdown');
+            viewerContainer.style.display = 'none';
         }
-		
-		function sendMessage(agentName, message) {
-			socket.emit('send-message', agentName, message)
-		}
+        
+        function sendMessage(agentName, message) {
+            socket.emit('send-message', agentName, message)
+        }
+
+        // Viewer functionality
+        function updateLayout() {
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            let iframe = document.querySelector('.iframe-wrapper');
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+        }
+
+        function checkViewerAvailability() {
+            let iframe = document.querySelector('.iframe-wrapper');
+            let loaded = false;
+            
+            function checkServer() {
+                if (!loaded) {
+                    iframe.src = 'http://localhost:3000';
+                }
+            }
+
+            iframe.onload = function() {
+                loaded = true;
+                viewerContainer.style.display = 'block';
+            };
+
+            iframe.onerror = function() {
+                loaded = false;
+                viewerContainer.style.display = 'none';
+            };
+            
+            checkServer();
+            setInterval(checkServer, 3000);
+        }
+
+        window.addEventListener('resize', updateLayout);
+        window.addEventListener('load', function() {
+            updateLayout();
+            checkViewerAvailability();
+        });
     </script>
 </body>
 </html> 
