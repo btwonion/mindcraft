@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Mindcraft</title>
     <script src="/socket.io/socket.io.js"></script>
@@ -10,16 +11,19 @@
             background: #1a1a1a;
             color: #e0e0e0;
         }
+
         #agents {
             background: #2d2d2d;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
         }
+
         h1 {
             color: #ffffff;
         }
+
         .agent {
             margin: 10px 0;
             padding: 10px;
@@ -29,7 +33,10 @@
             justify-content: space-between;
             align-items: center;
         }
-        .restart-btn, .start-btn, .stop-btn {
+
+        .restart-btn,
+        .start-btn,
+        .stop-btn {
             color: white;
             border: none;
             padding: 5px 10px;
@@ -37,41 +44,59 @@
             cursor: pointer;
             margin-left: 5px;
         }
+
         .restart-btn {
             background: #4CAF50;
         }
+
         .start-btn {
             background: #2196F3;
         }
+
         .stop-btn {
             background: #f44336;
         }
-        .restart-btn:hover { background: #45a049; }
-        .start-btn:hover { background: #1976D2; }
-        .stop-btn:hover { background: #d32f2f; }
+
+        .restart-btn:hover {
+            background: #45a049;
+        }
+
+        .start-btn:hover {
+            background: #1976D2;
+        }
+
+        .stop-btn:hover {
+            background: #d32f2f;
+        }
+
         .status-icon {
             font-size: 12px;
             margin-right: 8px;
         }
+
         .status-icon.online {
             color: #4CAF50;
         }
+
         .status-icon.offline {
             color: #f44336;
         }
+
         #viewer-container {
             background: #2d2d2d;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            display: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: block;
         }
+
         #viewer {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
             height: 80vh;
         }
+
         .iframe-wrapper {
             border: none;
             width: 100%;
@@ -79,6 +104,7 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Mindcraft</h1>
     <div id="agents"></div>
@@ -95,7 +121,7 @@
         const viewerContainer = document.getElementById('viewer-container');
 
         socket.on('agents-update', (agents) => {
-            agentsDiv.innerHTML = agents.length ? 
+            agentsDiv.innerHTML = agents.length ?
                 agents.map(agent => `
                     <div class="agent">
                         <span>
@@ -113,7 +139,7 @@
                         </div>
                     </div>
                 `
-            ).join('') + 
+                ).join('') +
                 `<button class="stop-btn" onclick="killAllAgents()">Stop All</button>
                 <button class="stop-btn" onclick="shutdown()">Shutdown</button>` :
                 '<div class="agent">No agents connected</div>';
@@ -142,7 +168,7 @@
             socket.emit('shutdown');
             viewerContainer.style.display = 'none';
         }
-        
+
         function sendMessage(agentName, message) {
             socket.emit('send-message', agentName, message)
         }
@@ -156,35 +182,33 @@
             iframe.style.height = '100%';
         }
 
-        function checkViewerAvailability() {
-            let iframe = document.querySelector('.iframe-wrapper');
-            let loaded = false;
-            
-            function checkServer() {
-                if (!loaded) {
-                    iframe.src = 'http://localhost:3000';
-                }
-            }
+        window.addEventListener('resize', updateLayout);
+        window.addEventListener('load', updateLayout);
 
-            iframe.onload = function() {
-                loaded = true;
-                viewerContainer.style.display = 'block';
-            };
-
-            iframe.onerror = function() {
-                loaded = false;
-                viewerContainer.style.display = 'none';
-            };
-            
-            checkServer();
-            setInterval(checkServer, 3000);
+        let iframe = document.querySelector('.iframe-wrapper');
+        let port = iframe.getAttribute('data-port');
+        let loaded = false;
+        function checkServer() {
+            fetch('http://localhost:' + port, { method: 'HEAD' })
+                .then(function (response) {
+                    if (response.ok && !loaded) {
+                        iframe.src = 'http://localhost:' + port;
+                    }
+                });
         }
 
-        window.addEventListener('resize', updateLayout);
-        window.addEventListener('load', function() {
-            updateLayout();
-            checkViewerAvailability();
-        });
+        iframe.onload = function () {
+            loaded = true;
+            viewerContainer.style.display = 'block';
+        };
+
+        iframe.onerror = function () {
+            loaded = false;
+            viewerContainer.style.display = 'none';
+        };
+
+        setInterval(checkServer, 3000);
     </script>
 </body>
-</html> 
+
+</html>
