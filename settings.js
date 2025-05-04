@@ -6,7 +6,7 @@ const settings = {
 
     // the mindserver manages all agents and hosts the UI
     "host_mindserver": true, // if true, the mindserver will be hosted on this machine. otherwise, specify a public IP address
-    "mindserver_host": "localhost",
+    "mindserver_host": "0.0.0.0",
     "mindserver_port": 8080,
     
     // the base profile is shared by all bots for default prompts/examples/modes
@@ -25,7 +25,7 @@ const settings = {
         // using more than 1 profile requires you to /msg each bot indivually
         // individual profiles override values from the base profile
     ],
-    "load_memory": false, // load memory from previous session
+    "load_memory": true, // load memory from previous session
     "init_message": "Respond with hello world and your name", // sends to all on spawn
     "only_chat_with": [], // users that the bots listen to and send general messages to. if empty it will chat publicly
     "speak": false, // allows all bots to speak through system text-to-speech. works on windows, mac, on linux you need to `apt install espeak`
@@ -44,30 +44,54 @@ const settings = {
     "verbose_commands": true, // show full command syntax
     "narrate_behavior": true, // chat simple automatic actions ('Picking up item!')
     "chat_bot_messages": true, // publicly chat messages to other bots
-    "log_all_prompts": true, // log ALL prompts to file
+    "log_all_prompts": false, // log ALL prompts to file
 }
 
-// these environment variables override certain settings
+// all environment variables override certain settings
+if (process.env.MINECRAFT_VERSION) {
+    settings.minecraft_version = process.env.MINECRAFT_VERSION;
+}
+if (process.env.MINECRAFT_HOST) {
+    settings.host = process.env.MINECRAFT_HOST;
+}
 if (process.env.MINECRAFT_PORT) {
     settings.port = process.env.MINECRAFT_PORT;
 }
-if (process.env.MINDSERVER_PORT) {
-    settings.mindserver_port = process.env.MINDSERVER_PORT;
+if (process.env.MINECRAFT_AUTH) {
+    settings.auth = process.env.MINECRAFT_AUTH;
 }
+
 if (process.env.PROFILES && JSON.parse(process.env.PROFILES).length > 0) {
     settings.profiles = JSON.parse(process.env.PROFILES);
 }
+if (process.env.INIT_MESSAGE) {
+    settings.init_message = process.env.INIT_MESSAGE;
+}
+if (process.env.ONLY_CHAT_WITH) {
+    settings.only_chat_with = JSON.parse(process.env.ONLY_CHAT_WITH);
+}
+if (process.env.LANGUAGE) {
+    settings.language = process.env.LANGUAGE;
+}
+
 if (process.env.INSECURE_CODING) {
-    settings.allow_insecure_coding = true;
+    settings.allow_insecure_coding = process.env.INSECURE_CODING;
+}
+if (process.env.ALLOW_VISION) {
+    settings.allow_vision = process.env.ALLOW_VISION;
 }
 if (process.env.BLOCKED_ACTIONS) {
     settings.blocked_actions = JSON.parse(process.env.BLOCKED_ACTIONS);
 }
+
 if (process.env.MAX_MESSAGES) {
     settings.max_messages = process.env.MAX_MESSAGES;
 }
 if (process.env.NUM_EXAMPLES) {
     settings.num_examples = process.env.NUM_EXAMPLES;
+}
+if (process.env.NARRATE_BEHAVIOR) {
+    settings.narrate_behavior = process.env.NARRATE_BEHAVIOR;
 }
 if (process.env.LOG_ALL) {
     settings.log_all_prompts = process.env.LOG_ALL;

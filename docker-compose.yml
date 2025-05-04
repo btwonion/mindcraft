@@ -6,3 +6,27 @@ services:
     ports:
       - "8080:8080"
       - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - MINECRAFT_VERSION=1.20.4
+      - MINECRAFT_HOST=172.17.0.1
+      - MINECRAFT_PORT=25565
+      - MINECRAFT_AUTH=offline
+
+      - PROFILES=["andy.json"]
+      - INIT_MESSAGE="Respond with hello world and your name"
+      - ONLY_CHAT_WITH=["andy"]
+      - LANGUAGE=en
+
+      - INSECURE_CODING=false
+      - ALLOW_VISION=true
+      - BLOCKED_ACTIONS=["!checkBlueprint", "!checkBlueprintLevel", "!getBlueprint", "!getBlueprintLevel"]
+
+      - MAX_MESSAGES=15
+      - NUM_EXAMPLES=2
+      - NARRATE_BEHAVIOR=true
+      - LOG_ALL=true
+
+      - OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+      
