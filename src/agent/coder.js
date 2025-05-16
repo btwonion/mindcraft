@@ -1,5 +1,4 @@
 import { writeFile, readFile, mkdirSync } from 'fs';
-import settings from '../../settings.js';
 import { makeCompartment } from './library/lockdown.js';
 import * as skills from './library/skills.js';
 import * as world from './library/world.js';
