@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxi-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
-    && npm ci --production \
+    && npm ci \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /root/.npm \
