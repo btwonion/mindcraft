@@ -19,10 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
     && npm ci \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /root/.npm \
-    && rm -rf /root/.cache
+    && apt-get clean
 
 # Copy source code
 COPY . .
