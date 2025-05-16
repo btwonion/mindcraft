@@ -39,3 +39,7 @@ docker-compose*.yml
 
 FAQ.md
 .github
+
+
+bots/**/action-code/**
+bots/**/
