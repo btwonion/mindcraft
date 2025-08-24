@@ -38,26 +38,50 @@ if (args.task_path) {
 }
 
 // these environment variables override certain settings
+if (process.env.MINECRAFT_VERSION) {
+    settings.minecraft_version = process.env.MINECRAFT_VERSION;
+}
+if (process.env.MINECRAFT_HOST) {
+    settings.host = process.env.MINECRAFT_HOST;
+}
 if (process.env.MINECRAFT_PORT) {
     settings.port = process.env.MINECRAFT_PORT;
 }
-if (process.env.MINDSERVER_PORT) {
-    settings.mindserver_port = process.env.MINDSERVER_PORT;
+if (process.env.MINECRAFT_AUTH) {
+    settings.auth = process.env.MINECRAFT_AUTH;
 }
+
 if (process.env.PROFILES && JSON.parse(process.env.PROFILES).length > 0) {
     settings.profiles = JSON.parse(process.env.PROFILES);
 }
+if (process.env.INIT_MESSAGE) {
+    settings.init_message = process.env.INIT_MESSAGE;
+}
+if (process.env.ONLY_CHAT_WITH) {
+    settings.only_chat_with = JSON.parse(process.env.ONLY_CHAT_WITH);
+}
+if (process.env.LANGUAGE) {
+    settings.language = process.env.LANGUAGE;
+}
+
 if (process.env.INSECURE_CODING) {
-    settings.allow_insecure_coding = true;
+    settings.allow_insecure_coding = process.env.INSECURE_CODING;
+}
+if (process.env.ALLOW_VISION) {
+    settings.allow_vision = process.env.ALLOW_VISION;
 }
 if (process.env.BLOCKED_ACTIONS) {
     settings.blocked_actions = JSON.parse(process.env.BLOCKED_ACTIONS);
 }
+
 if (process.env.MAX_MESSAGES) {
     settings.max_messages = process.env.MAX_MESSAGES;
 }
 if (process.env.NUM_EXAMPLES) {
     settings.num_examples = process.env.NUM_EXAMPLES;
+}
+if (process.env.NARRATE_BEHAVIOR) {
+    settings.narrate_behavior = process.env.NARRATE_BEHAVIOR;
 }
 if (process.env.LOG_ALL) {
     settings.log_all_prompts = process.env.LOG_ALL;

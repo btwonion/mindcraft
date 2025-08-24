@@ -1,9 +1,5 @@
 import { writeFile, readFile, mkdirSync } from 'fs';
-<<<<<<< HEAD
-import { makeCompartment } from './library/lockdown.js';
-=======
 import { makeCompartment, lockdown } from './library/lockdown.js';
->>>>>>> 808c29b5346fbbd709ec385ebb30cfb8ff800510
 import * as skills from './library/skills.js';
 import * as world from './library/world.js';
 import { Vec3 } from 'vec3';

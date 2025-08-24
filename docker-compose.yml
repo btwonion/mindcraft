@@ -10,7 +10,7 @@ services:
       - .:/app
     environment:
       - MINECRAFT_VERSION=1.20.4
-      - MINECRAFT_HOST=172.17.0.1
+      - MINECRAFT_HOST=127.0.0.1
       - MINECRAFT_PORT=25565
       - MINECRAFT_AUTH=offline
 
@@ -29,4 +29,3 @@ services:
       - LOG_ALL=true
 
       - OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-      
