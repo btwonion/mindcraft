@@ -5,12 +5,14 @@ const settings = {
     "auth": "offline", // or "microsoft"
 
     // the mindserver manages all agents and hosts the UI
+<<<<<<< HEAD
     "host_mindserver": true, // if true, the mindserver will be hosted on this machine. otherwise, specify a public IP address
     "mindserver_host": "0.0.0.0",
+=======
+>>>>>>> 808c29b5346fbbd709ec385ebb30cfb8ff800510
     "mindserver_port": 8080,
     
-    // the base profile is shared by all bots for default prompts/examples/modes
-    "base_profile": "./profiles/defaults/survival.json", // also see creative.json, god_mode.json
+    "base_profile": "survival", // survival, assistant, creative, or god_mode
     "profiles": [
         "./andy.json",
         // "./profiles/gpt.json",
@@ -21,16 +23,26 @@ const settings = {
         // "./profiles/grok.json",
         // "./profiles/mistral.json",
         // "./profiles/deepseek.json",
+        //"./profiles/mercury.json",
 
         // using more than 1 profile requires you to /msg each bot indivually
         // individual profiles override values from the base profile
     ],
+<<<<<<< HEAD
     "load_memory": true, // load memory from previous session
+=======
+
+    "load_memory": false, // load memory from previous session
+>>>>>>> 808c29b5346fbbd709ec385ebb30cfb8ff800510
     "init_message": "Respond with hello world and your name", // sends to all on spawn
     "only_chat_with": [], // users that the bots listen to and send general messages to. if empty it will chat publicly
     "speak": false, // allows all bots to speak through system text-to-speech. works on windows, mac, on linux you need to `apt install espeak`
     "language": "en", // translate to/from this language. Supports these language names: https://cloud.google.com/translate/docs/languages
+<<<<<<< HEAD
     "show_bot_views": true, // show bot's view in browser at localhost:3000, 3001...
+=======
+    "render_bot_view": false, // show bot's view in browser at localhost:3000, 3001...
+>>>>>>> 808c29b5346fbbd709ec385ebb30cfb8ff800510
 
     "allow_insecure_coding": false, // allows newAction command and model can write/run code on your computer. enable at own risk
     "allow_vision": false, // allows vision model to interpret screenshots as inputs
@@ -44,9 +56,13 @@ const settings = {
     "verbose_commands": true, // show full command syntax
     "narrate_behavior": true, // chat simple automatic actions ('Picking up item!')
     "chat_bot_messages": true, // publicly chat messages to other bots
+
+    "block_place_delay": 0, // delay between placing blocks (ms) if using newAction. helps avoid bot being kicked by anti-cheat mechanisms on servers.
+  
     "log_all_prompts": false, // log ALL prompts to file
 }
 
+<<<<<<< HEAD
 // all environment variables override certain settings
 if (process.env.MINECRAFT_VERSION) {
     settings.minecraft_version = process.env.MINECRAFT_VERSION;
@@ -97,4 +113,6 @@ if (process.env.LOG_ALL) {
     settings.log_all_prompts = process.env.LOG_ALL;
 }
 
+=======
+>>>>>>> 808c29b5346fbbd709ec385ebb30cfb8ff800510
 export default settings;
